@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">CoconutReminder</string>
+    <string name="title_activity_date">DateActivity</string>
+    <string name="str_button_set_date">Set your Date in</string>
+</resources>
