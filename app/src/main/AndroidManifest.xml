@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="personal.mila.coconutreminder">
 
+    <uses-permission android:name="android.permission.VIBRATE" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/coconut"
@@ -10,9 +11,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <receiver
-            android:name=".MyReceiver"
-            android:enabled="true"
-            android:exported="false"></receiver>
+            android:name=".MyReceiver">
+            <intent-filter>
+                <action android:name="mila.liam.coconut"/>
+            </intent-filter>
+        </receiver>
 
         <activity
             android:name=".DateActivity"
