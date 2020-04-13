@@ -74,15 +74,17 @@ public class DateActivity extends AppCompatActivity {
                 } else
                     Log.e(TAG, "Set date on previous month is not allow ");
                 if (setAlarm) {
+                    Toast.makeText(DateActivity.this, "MiLa nhớ giữ sức khỏe nha", Toast.LENGTH_LONG).show();
+                    updateCycleAndDate();
+
                     calendar.setTime(planDate);
+                    calendar.set(Calendar.HOUR, 6);
                     calendar.add(Calendar.DATE, -7);
                     reminder = new Reminder(DateActivity.this, calendar);
                     //cancel all old alarms
                     reminder.cancelAlarm();
                     //make new alarms
                     reminder.setAlarm();
-                    updateCycleAndDate();
-
                 }
 
             }

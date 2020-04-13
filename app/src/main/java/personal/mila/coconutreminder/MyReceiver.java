@@ -49,6 +49,6 @@ public class MyReceiver extends BroadcastReceiver {
                         .setAutoCancel(true)
                         .setContentIntent(contentIntent);
 
-        notificationManager.notify(0, builder.build());
+        notificationManager.notify(requestID, builder.build());
     }
 }

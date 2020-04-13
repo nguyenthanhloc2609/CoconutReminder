@@ -34,16 +34,15 @@ public class Reminder {
 
     public void setAlarm() {
         Log.d(TAG, "setAlarm: ");
-        calendar.set(Calendar.HOUR, 6);
         PendingIntent pi = PendingIntent.getBroadcast(mContext,
                 REQUEST_CODE,
                 mIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
         Log.d(TAG, "calendar: " + calendar.getTime());
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pi);
-        calendar.set(Calendar.HOUR, 18);
-        Log.d(TAG, "calendar: " + calendar.getTime());
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pi);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_HALF_DAY, pi);
+//        calendar.set(Calendar.HOUR, 18);
+//        Log.d(TAG, "calendar: " + calendar.getTime());
+//        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pi);
     }
 
     public void cancelAlarm() {
