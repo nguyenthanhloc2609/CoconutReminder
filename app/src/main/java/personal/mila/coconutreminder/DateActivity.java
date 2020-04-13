@@ -64,14 +64,26 @@ public class DateActivity extends AppCompatActivity {
                 Log.d(TAG, "onDateSet: " + month);
                 calendar.set(year, month, dayOfMonth);
                 btnSetDate.setText(sdf.format(calendar.getTime()));
-                if (month > dbManager.getLastDate().getMonth())
+                boolean setAlarm = false;
+                if (month > dbManager.getLastDate().getMonth()) {
                     dbManager.addNewDate(year, month, dayOfMonth);
-                else if (month == dbManager.getLastDate().getMonth())
+                    setAlarm = true;
+                } else if (month == dbManager.getLastDate().getMonth()) {
                     dbManager.update(year, month, dayOfMonth);
-                else
+                    setAlarm = true;
+                } else
                     Log.e(TAG, "Set date on previous month is not allow ");
-                updateCycleAndDate(calendar);
+                if (setAlarm) {
+                    calendar.setTime(planDate);
+                    calendar.add(Calendar.DATE, -7);
+                    reminder = new Reminder(DateActivity.this, calendar);
+                    //cancel all old alarms
+                    reminder.cancelAlarm();
+                    //make new alarms
+                    reminder.setAlarm();
+                    updateCycleAndDate();
 
+                }
 
             }
         }, curYear, curMonth, curDate);
@@ -92,10 +104,10 @@ public class DateActivity extends AppCompatActivity {
             btnSetDate.setText(sdf.format(dbManager.getLastDate()));
         }
 
-        updateCycleAndDate(calendar);
+        updateCycleAndDate();
     }
 
-    private void updateCycleAndDate(Calendar calendar) {
+    private void updateCycleAndDate() {
         int cycle = calculateCycle();
         if (cycle == 0) {
             Toast.makeText(this, "No Data", Toast.LENGTH_SHORT).show();
@@ -104,13 +116,7 @@ public class DateActivity extends AppCompatActivity {
             planDate = planDate(cycle);
             tvDate.setText(sdf.format(planDate));
 
-            calendar.setTime(planDate);
-            calendar.add(Calendar.DATE, -7);
-            reminder = new Reminder(DateActivity.this, calendar);
-            //cancel all old alarms
-            reminder.cancelAlarm();
-            //make new alarms
-            reminder.setAlarm();
+
         }
     }
 
