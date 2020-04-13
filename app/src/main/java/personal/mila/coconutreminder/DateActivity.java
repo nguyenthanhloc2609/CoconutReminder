@@ -64,18 +64,14 @@ public class DateActivity extends AppCompatActivity {
                 Log.d(TAG, "onDateSet: " + month);
                 calendar.set(year, month, dayOfMonth);
                 btnSetDate.setText(sdf.format(calendar.getTime()));
-                if (month != dbManager.getLastDate().getMonth())
+                if (month > dbManager.getLastDate().getMonth())
                     dbManager.addNewDate(year, month, dayOfMonth);
-                else
+                else if (month == dbManager.getLastDate().getMonth())
                     dbManager.update(year, month, dayOfMonth);
-                updateCycleAndDate();
-                calendar.setTime(planDate);
-                calendar.add(Calendar.DATE, -7);
-                reminder = new Reminder(DateActivity.this, calendar);
-                //cancel all old alarms
-                reminder.cancelAlarm();
-                //make new alarms
-                reminder.setAlarm();
+                else
+                    Log.e(TAG, "Set date on previous month is not allow ");
+                updateCycleAndDate(calendar);
+
 
             }
         }, curYear, curMonth, curDate);
@@ -96,10 +92,10 @@ public class DateActivity extends AppCompatActivity {
             btnSetDate.setText(sdf.format(dbManager.getLastDate()));
         }
 
-        updateCycleAndDate();
+        updateCycleAndDate(calendar);
     }
 
-    private void updateCycleAndDate() {
+    private void updateCycleAndDate(Calendar calendar) {
         int cycle = calculateCycle();
         if (cycle == 0) {
             Toast.makeText(this, "No Data", Toast.LENGTH_SHORT).show();
@@ -107,6 +103,14 @@ public class DateActivity extends AppCompatActivity {
             tvCycle.setText(cycle + " days");
             planDate = planDate(cycle);
             tvDate.setText(sdf.format(planDate));
+
+            calendar.setTime(planDate);
+            calendar.add(Calendar.DATE, -7);
+            reminder = new Reminder(DateActivity.this, calendar);
+            //cancel all old alarms
+            reminder.cancelAlarm();
+            //make new alarms
+            reminder.setAlarm();
         }
     }
 

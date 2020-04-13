@@ -35,7 +35,6 @@ public class Reminder {
     public void setAlarm() {
         Log.d(TAG, "setAlarm: ");
         calendar.set(Calendar.HOUR, 6);
-//        calendar.add(Calendar.SECOND, 5);
         PendingIntent pi = PendingIntent.getBroadcast(mContext,
                 REQUEST_CODE,
                 mIntent,
